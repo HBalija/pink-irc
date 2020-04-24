@@ -20,10 +20,16 @@ const App = () => {
   };
 
   return (
-    <ChannelSection
-      channels={channels}
-      addChannel={addChannelHandler}
-      setChannel={setChannelHandler} />
+    <div className="app">
+      <div className="nav">
+        <ChannelSection
+          channels={channels}
+          activeChannel={activeChannel}
+          addChannel={addChannelHandler}
+          setChannel={setChannelHandler} />
+      </div>
+    </div>
+
   );
 };
 
