@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState }from 'react';
 import './App.css';
 
-function App() {
+import ChannelSection from './components/channels/ChannelSection';
+
+
+const App = () => {
+
+  const [channels, setChannels] = useState([]);
+  const [activeChannel, setActiveChannel] = useState('');
+
+  const addChannelHandler = name => {
+    setChannels(prevState => [ ...prevState, { id: channels.length, name }]);
+    // TODO: Send to server
+  };
+
+  const setChannelHandler = activeChannel => {
+    setActiveChannel(activeChannel);
+    // TODO: Get Channels messages
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChannelSection
+      channels={channels}
+      addChannel={addChannelHandler}
+      setChannel={setChannelHandler} />
   );
-}
+};
 
 export default App;
