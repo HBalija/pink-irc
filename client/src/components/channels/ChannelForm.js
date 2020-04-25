@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addChannel } from '../../store/actions/channelActions';
 
-import '../../App.css';
-
 
 const ChannelForm = () => {
 

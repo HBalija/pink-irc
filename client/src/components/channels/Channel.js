@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 
 import { setActiveChannel } from '../../store/actions/channelActions';
 
-import '../../App.css';
-
 
 const Channel = props => {
   const { channel, activeChannel } = props;

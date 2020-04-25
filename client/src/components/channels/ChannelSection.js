@@ -3,8 +3,6 @@ import React from 'react';
 import ChannelForm from './ChannelForm';
 import ChannelList from './ChannelList';
 
-import '../../App.css';
-
 
 const ChannelSection = () => {
   return (

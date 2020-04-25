@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addUser } from '../../store/actions/userActions';
 
 
-const UserForm = props => {
+const UserForm = () => {
 
   const [userValue, setUserValue] = useState('');
+
+  const usersLength = useSelector(state => state.users.users.length);
+
+  const dispatch = useDispatch();
+  const onStartAddCUser = name => dispatch(addUser({ id: usersLength, name }));
 
   const onSubmit = e => {
     e.preventDefault();
 
-    props.setUserName(userValue);
+    onStartAddCUser(userValue);
     setUserValue('');
   };
 

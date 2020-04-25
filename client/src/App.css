@@ -1,4 +1,4 @@
-.app{
+.app {
   display:flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -58,45 +58,45 @@
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.nav{
+.nav {
   flex-basis: 20%;
 }
 
-.messages-container{
+.messages-container {
   flex-basis: 80%;
   margin-bottom: 0;
   height: 100vh;
 }
 
-.support, .users{
+.support, .users {
   height: 50vh;
   margin-bottom: 0;
 }
 
-.channels, .users, .messages{
+.channels, .users, .messages {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.channels, .users{
+.channels, .users {
   height: 88%;
 }
 
-.messages{
+.messages {
   height: 94%;
 }
 
-.channels > ul, .messages > ul, .users > ul{
+.channels > ul, .messages > ul, .users > ul {
   flex: 1;
   overflow-y: auto;
 }
 
-.message > .author{
+.message > .author {
   flex-basis: 100%;
 }
 
-.message > .body{
+.message > .body {
   flex-basis: 100%;
 }
 
@@ -104,23 +104,23 @@
   background-color: #E8E8E8;
 }
 
-.timestamp{
+.timestamp {
   color: #808080;
   font-style: italic;
   padding-left: 10px;
   font-size: 13px;
 }
 
-.form-group{
+.form-group {
   margin-bottom: 0;
 }
 
-ul{
+ul {
   list-style-type:none;
   padding: 0;
 }
 
-li{
+li {
   padding: 0 4px 0 4px;
 }
 
@@ -129,7 +129,7 @@ p {
   margin-bottom: 5px;;
 }
 
-.channel{
+.channel {
   cursor: pointer;
   color: lightslategray;
 }
