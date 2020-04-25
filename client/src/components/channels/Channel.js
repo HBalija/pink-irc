@@ -21,7 +21,7 @@ const Channel = props => {
 
   return (
     <li className={active}>
-      <p className="channel-item" onClick={onClickHandler}>{channel.name}</p>
+      <p className="channel" onClick={onClickHandler}>{channel.name}</p>
     </li>
   );
 };

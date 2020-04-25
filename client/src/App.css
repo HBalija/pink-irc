@@ -23,8 +23,8 @@
 
 .panel-primary>.panel-heading {
   color: #ffffff;
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #bc3dc2;
+  border-color: #bc3dc2;
 }
 
 .panel-heading {
@@ -129,7 +129,11 @@ p {
   margin-bottom: 5px;;
 }
 
-.channel-item{
+.channel{
   cursor: pointer;
+  color: lightslategray;
+}
+
+.user {
   color: lightslategray;
 }
