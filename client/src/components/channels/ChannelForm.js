@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addChannel } from '../../store/actions/channelActions';
 
 import '../../App.css';
 
 
-const ChannelForm = ({ addChannel }) => {
+const ChannelForm = () => {
 
   const [value, setValue] = useState('');
+
+  const channelsLength = useSelector(state => state.channels.channels.length);
+
+  const dispatch = useDispatch();
+  const onStartAddChannel = name => dispatch(addChannel({ id: channelsLength, name }));
 
   const onSubmitHandler = e => {
     e.preventDefault();
 
-    addChannel(value);
+    onStartAddChannel(value);
     setValue('');
   };
 

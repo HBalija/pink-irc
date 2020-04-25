@@ -1,0 +1,5 @@
+// CHANNELS
+
+export const SET_CHANNELS = 'GET_CHANNELS';
+export const ADD_CHANNEL = 'ADD_CHANNEL';
+export const SET_ACTIVE_CHANNEL = 'SET_ACTIVE_CHANNEL';

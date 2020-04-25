@@ -1,13 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
+import { setActiveChannel } from '../../store/actions/channelActions';
 
 import '../../App.css';
 
 
-const Channel = ({ channel, setChannel, activeChannel }) => {
+const Channel = props => {
+  const { channel, activeChannel } = props;
+
+  const dispatch = useDispatch();
+  const onSetActiveChannel = channel => dispatch(setActiveChannel(channel));
 
   const onClickHandler = e => {
     e.preventDefault();
-    setChannel(channel);
+    onSetActiveChannel(channel);
   };
 
   const active = channel === activeChannel ? 'active' : '';
