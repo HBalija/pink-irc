@@ -6,7 +6,7 @@ import MessageForm from './MessageForm';
 
 const MessageSection = props => {
 
-  const activeChannel = useSelector(state => state.channels.activeChannel);
+  const activeChannel = useSelector(state => state.activeChannel);
   return (
     <div className="messages-container panel panel-default">
       <div className="panel-heading">

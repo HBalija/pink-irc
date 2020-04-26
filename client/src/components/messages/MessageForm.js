@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-const MessageForm = props => {
+import { addMessage } from '../../store/actions';
+
+const MessageForm = () => {
 
   const [message, setMessage] = useState('');
 
-  const activeChannel = useSelector(state => state.channels.activeChannel);
+  const dispatch = useDispatch();
+  const onStartAddMessage = (body, createdAt, author) => {
+    dispatch(addMessage({ id: messagesLength, body, createdAt, author }));
+  };
+
+  const activeChannel = useSelector(state => state.activeChannel);
+  const users = useSelector(state => state.users);
+  const messagesLength = useSelector(state => state.messages.length);
 
   const onSubmit = e => {
     e.preventDefault();
 
-    props.addMessage(message);
+    const createdAt = new Date();
+    const author = users.length > 0 ? users[users.length - 1].name : 'annonymous';
+
+
+    onStartAddMessage(message, createdAt, author);
     setMessage('');
   };
 

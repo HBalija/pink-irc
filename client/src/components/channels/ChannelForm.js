@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addChannel } from '../../store/actions/channelActions';
+import { addChannel } from '../../store/actions';
 
 
 const ChannelForm = () => {
 
   const [value, setValue] = useState('');
 
-  const channelsLength = useSelector(state => state.channels.channels.length);
+  const channelsLength = useSelector(state => state.channels.length);
 
   const dispatch = useDispatch();
   const onStartAddChannel = name => dispatch(addChannel({ id: channelsLength, name }));

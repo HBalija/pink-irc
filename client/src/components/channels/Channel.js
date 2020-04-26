@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setActiveChannel } from '../../store/actions/channelActions';
+import { setActiveChannel } from '../../store/actions';
 
 
 const Channel = props => {

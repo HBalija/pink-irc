@@ -6,8 +6,8 @@ import Channel from './Channel';
 
 const ChannelList = () => {
 
-  const channels = useSelector(state => state.channels.channels);
-  const activeChannel = useSelector(state => state.channels.activeChannel);
+  const channels = useSelector(state => state.channels);
+  const activeChannel = useSelector(state => state.activeChannel);
 
   return (
     <ul>
