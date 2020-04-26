@@ -7,19 +7,19 @@ const ChannelForm = () => {
   const [value, setValue] = useState('');
 
   const channelsLength = useSelector(state => state.channels.length);
-  const websocket = useSelector(state => state.websocket);
+  const socket = useSelector(state => state.socket);
 
   const onSubmitHandler = e => {
     e.preventDefault();
 
-    const msg = {
-      name: 'channel add',
-      data: {
-        id: channelsLength,
-        name: value
-      }
+    const data = {
+      id: channelsLength,
+      name: value
     };
-    websocket.send(JSON.stringify(msg));
+
+    // emit message to backend
+    socket.emit('channel add', data);
+
     setValue('');
   };
 

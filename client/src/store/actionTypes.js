@@ -1,8 +1,8 @@
 // WS
 
-export const WS_CONNECT = 'WS_CONNECT';
-export const WS_DISCONNECT = 'WS_DISCONNECT';
-export const SET_WS = 'SET_WS';
+export const SOCKET_CONNECT = 'SOCKET_CONNECT';
+export const SOCKET_DISCONNECT = 'SOCKET_DISCONECT';
+export const SET_SOCKET = 'SET_SOCKET';
 
 
 // CHANNELS

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import * as actions from './store/actions';
+import Socket from './socket';
 
 import './App.css';
 
@@ -12,40 +13,24 @@ import MessageSection from './components/messages/MessageSection';
 
 const App = () => {
 
-  // const connected = useSelector(state => state.connected);
-
   const dispatch = useDispatch();
-  const onSetWs = ws => dispatch(actions.setWs(ws));
-  // const onWsConnect = () => dispatch(actions.wsConnect());
-  // const onWsDisconnect = () => dispatch(actions.wsDisconnect());
+  const onSetSocket = socket => dispatch(actions.setSocket(socket));
+  const onSocketConnect = () => dispatch(actions.socketConnect());
+  const onSocketDisconnect = () => dispatch(actions.socketDisconnect());
   const onStartAddChannel = channel => dispatch(actions.addChannel(channel));
 
   useEffect(() => {
-    const ws = new WebSocket('ws://echo.websocket.org');
+    const socket = new Socket('ws://echo.websocket.org');
+    onSetSocket(socket);
 
-    ws.onmessage = message;
-    // ws.onopen = open;
-    // ws.onclose = close;
+    // onopen / onclose event listeners
+    socket.on('connect', onSocketConnect);
+    socket.on('disconect', onSocketDisconnect);
 
-    onSetWs(ws);
+    // onmessage event listeners
+    socket.on('channel add', data => onStartAddChannel(data));
+
   }, []); // eslint-disable-line
-
-  const message = e => {
-    const event = JSON.parse(e.data);
-    if (event.name === 'channel add') newChannel(event.data);
-  };
-
-  const newChannel = channel => {
-    onStartAddChannel(channel);
-  };
-
-  // const open = () => {
-  //   onWsConnect();
-  // };
-
-  // const close = () => {
-  //   onWsDisconnect();
-  // };
 
   return (
     <div className="app">

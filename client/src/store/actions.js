@@ -3,11 +3,11 @@ import * as actionTypes from './actionTypes';
 
 // WS actions
 
-export const wsConnect = () => ({ type: actionTypes.WS_CONNECT });
+export const socketConnect = () => ({ type: actionTypes.SOCKET_CONNECT });
 
-export const wsDisconnect = () => ({ type: actionTypes.WS_DISCONNECT });
+export const socketDisconnect = () => ({ type: actionTypes.SOCKET_DISCONNECT });
 
-export const setWs = ws => ({ type: actionTypes.SET_WS, ws });
+export const setSocket = socket => ({ type: actionTypes.SET_SOCKET, socket });
 
 
 // CHANNELS actions

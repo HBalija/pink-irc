@@ -6,7 +6,7 @@ const initialState = {
   users: [],
   messages: [],
   connected: false,
-  websocket: {}
+  socket: {}
 };
 
 export default (state = initialState, action) => {
@@ -24,14 +24,14 @@ export default (state = initialState, action) => {
   case actionTypes.ADD_MESSAGE:
     return { ...state, messages: [...state.messages, action.newMessage] };
 
-  case actionTypes.WS_CONNECT:
+  case actionTypes.SOCKET_CONNECT:
     return { ...state, connected: true };
 
-  case actionTypes.WS_DISCONNECT:
+  case actionTypes.SOCKET_DISCONNECT:
     return { ...state, connected: false };
 
-  case actionTypes.SET_WS:
-    return { ...state, websocket: action.ws };
+  case actionTypes.SET_SOCKET:
+    return { ...state, socket: action.socket };
 
   default:
     return state;
