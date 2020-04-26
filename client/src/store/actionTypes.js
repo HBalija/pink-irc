@@ -1,3 +1,10 @@
+// WS
+
+export const WS_CONNECT = 'WS_CONNECT';
+export const WS_DISCONNECT = 'WS_DISCONNECT';
+export const SET_WS = 'SET_WS';
+
+
 // CHANNELS
 
 export const ADD_CHANNEL = 'ADD_CHANNEL';

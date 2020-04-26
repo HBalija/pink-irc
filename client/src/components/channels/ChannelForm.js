@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { addChannel } from '../../store/actions';
+import { useSelector } from 'react-redux';
 
 
 const ChannelForm = () => {
@@ -9,14 +7,19 @@ const ChannelForm = () => {
   const [value, setValue] = useState('');
 
   const channelsLength = useSelector(state => state.channels.length);
-
-  const dispatch = useDispatch();
-  const onStartAddChannel = name => dispatch(addChannel({ id: channelsLength, name }));
+  const websocket = useSelector(state => state.websocket);
 
   const onSubmitHandler = e => {
     e.preventDefault();
 
-    onStartAddChannel(value);
+    const msg = {
+      name: 'channel add',
+      data: {
+        id: channelsLength,
+        name: value
+      }
+    };
+    websocket.send(JSON.stringify(msg));
     setValue('');
   };
 
