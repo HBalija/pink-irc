@@ -12,12 +12,8 @@ const ChannelForm = () => {
   const onSubmitHandler = e => {
     e.preventDefault();
 
-    const data = {
-      id: channelsLength,
-      name: value
-    };
-
     // emit message to backend
+    const data = { id: channelsLength, name: value };
     socket.emit('channel add', data);
 
     setValue('');

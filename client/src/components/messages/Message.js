@@ -1,17 +1,17 @@
 import React from 'react';
-import fecha from 'fecha';
+// import fecha from 'fecha';
 
 
 const Message = ({ message }) => {
 
-  const createdAt = fecha.format(message.createdAt, 'HH:mm:ss MM/DD/YY');
+  // const createdAt = fecha.format(message.createdAt, 'HH:mm:ss MM/DD/YY');
   return (
     <li className="message">
       <div className="author">
         <strong>{message.author}</strong>
-        <i className="timestamp">{createdAt}</i>
+        <i className="timestamp">{message.createdAt}</i>
       </div>
-      <dib className="body">{message.body}</dib>
+      <div className="body">{message.message}</div>
     </li>
   );
 };

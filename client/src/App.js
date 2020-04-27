@@ -17,20 +17,36 @@ const App = () => {
   const onSetSocket = socket => dispatch(actions.setSocket(socket));
   const onSocketConnect = () => dispatch(actions.socketConnect());
   const onSocketDisconnect = () => dispatch(actions.socketDisconnect());
-  const onStartAddChannel = channel => dispatch(actions.addChannel(channel));
+  const onAddChannel = channel => dispatch(actions.addChannel(channel));
+  const onAddUser = user => dispatch(actions.addUser(user));
+  // const onEditUser = user => dispatch(actions.editUser(user));
+  // const onRemoveUser = userId => dispatch(actions.removeUser(userId));
+  const onAddMessage = message => dispatch(actions.addMessage(message));
 
   useEffect(() => {
     const socket = new Socket('ws://echo.websocket.org');
     onSetSocket(socket);
 
     // onopen / onclose event listeners
-    socket.on('connect', onSocketConnect);
-    socket.on('disconect', onSocketDisconnect);
+    socket.on('connect', () => {
+      onSocketConnect();
+      socket.emit('channel subscribe');
+      socket.emit('user subscribe');
+    });
+    socket.on('disconect', onDisconnect);
 
     // onmessage event listeners
-    socket.on('channel add', data => onStartAddChannel(data));
+    socket.on('channel add', data => onAddChannel(data));
+    socket.on('user add', data => onAddUser(data));
+    // socket.on('user edit', data => onEditUser(data));
+    // socket.on('user remove', data => onRemoveUser(data));
+    socket.on('message add', data => onAddMessage(data));
 
   }, []); // eslint-disable-line
+
+  const onDisconnect = () => {
+    onSocketDisconnect();
+  };
 
   return (
     <div className="app">

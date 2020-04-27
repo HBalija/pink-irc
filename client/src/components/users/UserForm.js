@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { addUser } from '../../store/actions';
+import { useSelector } from 'react-redux';
 
 
 const UserForm = () => {
@@ -9,14 +7,16 @@ const UserForm = () => {
   const [userValue, setUserValue] = useState('');
 
   const usersLength = useSelector(state => state.users.length);
+  const socket = useSelector(state => state.socket);
 
-  const dispatch = useDispatch();
-  const onStartAddCUser = name => dispatch(addUser({ id: usersLength, name }));
 
   const onSubmit = e => {
     e.preventDefault();
 
-    onStartAddCUser(userValue);
+    // emit message to backend
+    const data = { id: usersLength, name: userValue };
+    socket.emit('user add', data);
+
     setUserValue('');
   };
 
