@@ -2,6 +2,6 @@
 
 - build frontend +
 - add webscocket interface +
-- setup websocket listeners and emitters
+- setup websocket listeners and emitters +
 - build backend
 - db connection
