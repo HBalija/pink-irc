@@ -15,24 +15,21 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-// Handler router handle custom type
-type Handler func(*Client, interface{})
+// MsgHandler router handle custom type
+type MsgHandler func(*Client, interface{})
 
 // Router struct implement Handler interface (ServeHTTP method)
 type Router struct {
-	rules map[string]Handler
+	rules map[string]MsgHandler
 }
 
-// NewRouter return pointer to a new router struct
-func NewRouter() *Router {
-	return &Router{
-		rules: make(map[string]Handler),
-	}
-}
-
-// Handle custom messages
-func (m *Router) Handle(msgName string, handler Handler) {
+func (m *Router) handle(msgName string, handler MsgHandler) {
 	m.rules[msgName] = handler
+}
+
+func (m *Router) findHandler(msgName string) (MsgHandler, bool) {
+	handler, found := m.rules[msgName]
+	return handler, found
 }
 
 func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +43,14 @@ func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewClient(socket)
+	client := NewClient(socket, m.findHandler)
 	go client.Write()
 	client.Read()
+}
+
+// NewRouter return pointer to a new router struct
+func NewRouter() *Router {
+	return &Router{
+		rules: make(map[string]MsgHandler),
+	}
 }

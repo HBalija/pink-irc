@@ -1,50 +1,57 @@
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
+	"github.com/gorilla/websocket"
 )
+
+// Message received structure
+type Message struct {
+	Name string      `json:"name"`
+	Data interface{} `json:"data"`
+}
+
+// FindHandler type
+type FindHandler func(string) (MsgHandler, bool)
 
 // Client chan structure
 type Client struct {
-	send chan Message
+	send        chan Message
+	socket      *websocket.Conn
+	findHandler FindHandler
 }
 
 // send messages over ws
 func (c *Client) Write() {
 	for msg := range c.send {
-		// TODO: socket.sendJson(msg)
-		fmt.Printf("%T\n", c)
-		fmt.Printf("%#v\n", msg)
-		fmt.Printf("%v\n", msg)
+		err := c.socket.WriteJSON(msg)
+		if err != nil {
+			break
+		}
 	}
+	c.socket.Close()
 }
 
 // read messages from ws
 func (c *Client) Read() {
-
-}
-
-func (c *Client) subscribeChannels() {
-	// TODO: changefeed Query RethinkDB
+	var message Message
 	for {
-		time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
-		c.send <- Message{Name: "channel add"}
+		err := c.socket.ReadJSON(&message)
+		if err != nil {
+			break
+		}
+		handler, found := c.findHandler(message.Name)
+		if found == true {
+			handler(c, message.Data)
+		}
 	}
-}
-
-func (c *Client) subscribeMessages() {
-	// TODO: changefeed Query RethinkDB
-	for {
-		time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
-		c.send <- Message{Name: "message add"}
-	}
+	c.socket.Close()
 }
 
 // NewClient return a client object pointer
-func NewClient() *Client {
+func NewClient(socket *websocket.Conn, fh FindHandler) *Client {
 	return &Client{
-		send: make(chan Message),
+		send:        make(chan Message),
+		socket:      socket,
+		findHandler: fh,
 	}
 }
