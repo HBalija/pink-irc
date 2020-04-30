@@ -12,7 +12,7 @@ type Channel struct {
 
 func main() {
 	router := NewRouter()
-	// router.handle("channel add", func() bool { return true })
+	router.handle("channel add", addChannel)
 
 	http.Handle("/", router)
 	http.ListenAndServe(":8000", nil)
