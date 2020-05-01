@@ -24,7 +24,7 @@ const App = () => {
   const onAddMessage = message => dispatch(actions.addMessage(message));
 
   useEffect(() => {
-    const socket = new Socket('ws://echo.websocket.org');
+    const socket = new Socket('ws://localhost:8000');
     onSetSocket(socket);
 
     // onopen / onclose event listeners
