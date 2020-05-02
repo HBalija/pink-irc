@@ -32,6 +32,7 @@ func main() {
 	router := NewRouter(session)
 	router.handle("channel add", addChannel)
 	router.handle("channel subscribe", subscribeChannel)
+	router.handle("channel unsubscribe", unsubscribeChannel)
 
 	http.Handle("/", router)
 	http.ListenAndServe(":8000", nil)
