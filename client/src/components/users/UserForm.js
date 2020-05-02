@@ -6,15 +6,13 @@ const UserForm = () => {
 
   const [userValue, setUserValue] = useState('');
 
-  const usersLength = useSelector(state => state.users.length);
   const socket = useSelector(state => state.socket);
-
 
   const onSubmit = e => {
     e.preventDefault();
 
     // emit message to backend
-    const data = { id: usersLength, name: userValue };
+    const data = { name: userValue };
     socket.emit('user add', data);
 
     setUserValue('');

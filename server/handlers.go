@@ -1,21 +1,25 @@
 package main
 
 import (
-	"fmt"
-
+	r "github.com/dancannon/gorethink"
 	"github.com/mitchellh/mapstructure"
 )
 
 func addChannel(client *Client, data interface{}) {
 	var channel Channel
-	var message Message
-	mapstructure.Decode(data, &channel)
-	fmt.Printf("%#v\n", channel)
-	// TODO: insert channel into db
-	channel.ID = "ABC123"
+	err := mapstructure.Decode(data, &channel)
+	if err != nil {
+		client.send <- Message{Name: "error", Data: err.Error()}
+		return
+	}
+	go func() {
+		// Insert channel into db
+		err = r.Table("channel").
+			Insert(channel).
+			Exec(client.session)
+		if err != nil {
+			client.send <- Message{Name: "error", Data: err.Error()}
+		}
+	}()
 
-	message.Name = "channel add"
-	message.Data = channel
-
-	client.send <- message
 }

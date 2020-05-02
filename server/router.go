@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	r "github.com/dancannon/gorethink"
 	"github.com/gorilla/websocket"
 )
 
@@ -18,9 +19,18 @@ var upgrader = websocket.Upgrader{
 // MsgHandler router handle custom type
 type MsgHandler func(*Client, interface{})
 
+// NewRouter return pointer to a new router struct
+func NewRouter(session *r.Session) *Router {
+	return &Router{
+		rules:   make(map[string]MsgHandler),
+		session: session,
+	}
+}
+
 // Router struct implement Handler interface (ServeHTTP method)
 type Router struct {
-	rules map[string]MsgHandler
+	rules   map[string]MsgHandler
+	session *r.Session
 }
 
 func (m *Router) handle(msgName string, handler MsgHandler) {
@@ -36,6 +46,8 @@ func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// var socket *websocket.Conn
 	socket, err := upgrader.Upgrade(w, r, nil)
 
+	fmt.Println(r)
+
 	if err != nil {
 		// HTTP status 500
 		w.WriteHeader(http.StatusInternalServerError)
@@ -43,14 +55,7 @@ func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewClient(socket, m.findHandler)
+	client := NewClient(socket, m.findHandler, m.session)
 	go client.Write()
 	client.Read()
-}
-
-// NewRouter return pointer to a new router struct
-func NewRouter() *Router {
-	return &Router{
-		rules: make(map[string]MsgHandler),
-	}
 }

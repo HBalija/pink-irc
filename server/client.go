@@ -1,6 +1,7 @@
 package main
 
 import (
+	r "github.com/dancannon/gorethink"
 	"github.com/gorilla/websocket"
 )
 
@@ -13,11 +14,22 @@ type Message struct {
 // FindHandler type
 type FindHandler func(string) (MsgHandler, bool)
 
+// NewClient return a client object pointer
+func NewClient(socket *websocket.Conn, fh FindHandler, session *r.Session) *Client {
+	return &Client{
+		send:        make(chan Message),
+		socket:      socket,
+		findHandler: fh,
+		session:     session,
+	}
+}
+
 // Client chan structure
 type Client struct {
 	send        chan Message
 	socket      *websocket.Conn
 	findHandler FindHandler
+	session     *r.Session
 }
 
 // send messages over ws
@@ -45,13 +57,4 @@ func (c *Client) Read() {
 		}
 	}
 	c.socket.Close()
-}
-
-// NewClient return a client object pointer
-func NewClient(socket *websocket.Conn, fh FindHandler) *Client {
-	return &Client{
-		send:        make(chan Message),
-		socket:      socket,
-		findHandler: fh,
-	}
 }
