@@ -21,5 +21,23 @@ func addChannel(client *Client, data interface{}) {
 			client.send <- Message{Name: "error", Data: err.Error()}
 		}
 	}()
+}
 
+func subscribeChannel(client *Client, data interface{}) {
+	go func() {
+		cursor, err := r.Table("channel").
+			Changes(r.ChangesOpts{IncludeInitial: true}).
+			Run(client.session)
+		if err != nil {
+			client.send <- Message{Name: "error", Data: err.Error()}
+			return
+		}
+		var change r.ChangeResponse
+		for cursor.Next(&change) {
+			if change.NewValue != nil && change.OldValue == nil {
+				// record inserted
+				client.send <- Message{Name: "channel add", Data: change.NewValue}
+			}
+		}
+	}()
 }

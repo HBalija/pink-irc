@@ -3,5 +3,6 @@
 - build frontend +
 - add webscocket interface +
 - setup websocket listeners and emitters +
-- build backend
+- build backend +
 - db connection
+- docker

@@ -46,8 +46,6 @@ func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// var socket *websocket.Conn
 	socket, err := upgrader.Upgrade(w, r, nil)
 
-	fmt.Println(r)
-
 	if err != nil {
 		// HTTP status 500
 		w.WriteHeader(http.StatusInternalServerError)
