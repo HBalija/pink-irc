@@ -17,19 +17,21 @@ type FindHandler func(string) (MsgHandler, bool)
 // NewClient return a client object pointer
 func NewClient(socket *websocket.Conn, fh FindHandler, session *r.Session) *Client {
 	return &Client{
-		send:        make(chan Message),
-		socket:      socket,
-		findHandler: fh,
-		session:     session,
+		send:         make(chan Message),
+		socket:       socket,
+		findHandler:  fh,
+		session:      session,
+		stopChannels: make(map[int]chan bool),
 	}
 }
 
 // Client chan structure
 type Client struct {
-	send        chan Message
-	socket      *websocket.Conn
-	findHandler FindHandler
-	session     *r.Session
+	send         chan Message
+	socket       *websocket.Conn
+	findHandler  FindHandler
+	session      *r.Session
+	stopChannels map[int]chan bool
 }
 
 // send messages over ws
@@ -57,4 +59,17 @@ func (c *Client) Read() {
 		}
 	}
 	c.socket.Close()
+}
+
+func (c *Client) close() {
+	for _, ch := range c.stopChannels {
+		ch <- true
+	}
+	close(c.send)
+}
+
+func (c *Client) newStopChannel(stopKey int) chan bool {
+	stop := make(chan bool)
+	c.stopChannels[stopKey] = stop
+	return stop
 }
