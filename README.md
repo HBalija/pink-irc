@@ -4,5 +4,6 @@
 - add webscocket interface +
 - setup websocket listeners and emitters +
 - build backend +
-- db connection
+- db connection +
+- frontend user edit / remove
 - docker

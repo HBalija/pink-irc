@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	r "github.com/dancannon/gorethink"
 	"github.com/gorilla/websocket"
 )
@@ -16,12 +18,27 @@ type FindHandler func(string) (MsgHandler, bool)
 
 // NewClient return a client object pointer
 func NewClient(socket *websocket.Conn, fh FindHandler, session *r.Session) *Client {
+	var user User
+	user.Name = "anonymous"
+	res, err := r.Table("user").Insert(user).RunWrite(session)
+
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	var id string
+	if len(res.GeneratedKeys) > 0 {
+		id = res.GeneratedKeys[0]
+	}
+
 	return &Client{
 		send:         make(chan Message),
 		socket:       socket,
 		findHandler:  fh,
 		session:      session,
 		stopChannels: make(map[int]chan bool),
+		id:           id,
+		userName:     user.Name,
 	}
 }
 
@@ -32,6 +49,8 @@ type Client struct {
 	findHandler  FindHandler
 	session      *r.Session
 	stopChannels map[int]chan bool
+	id           string
+	userName     string
 }
 
 // send messages over ws

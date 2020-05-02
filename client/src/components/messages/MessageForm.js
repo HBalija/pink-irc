@@ -7,19 +7,14 @@ const MessageForm = () => {
   const [message, setMessage] = useState('');
 
   const activeChannel = useSelector(state => state.activeChannel);
-  const users = useSelector(state => state.users);
-  const messagesLength = useSelector(state => state.messages.length);
   const socket = useSelector(state => state.socket);
 
   const onSubmit = e => {
     e.preventDefault();
 
     const data = {
-      id: messagesLength,
       channelId: activeChannel.id,
-      message: message,
-      createdAt: new Date(),
-      author: users.length > 0 ? users[users.length - 1].name : 'anonymous'
+      body: message
     };
     socket.emit('message add', data);
 
